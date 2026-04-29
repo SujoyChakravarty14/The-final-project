@@ -1,0 +1,37 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and start services
+        run: docker-compose up -d --build
+
+      - name: Check running containers
+        run: docker ps
+
+      - name: Shut down services
+        run: docker-compose down
+
+  # Optional deploy job can be added here
+  # deploy:
+  #   needs: build-and-test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Deploy
+  #       run: echo "Deploying to production..."

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  triage-backend:
+    build:
+      context: ./triage-agent/backend
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+
+  triage-frontend:
+    build:
+      context: ./triage-agent/frontend
+    ports:
+      - "3000:80"
+
+  edu-bot-backend:
+    build:
+      context: ./genai-edu-bot/backend
+    ports:
+      - "8001:8001"
+
+  edu-bot-frontend:
+    build:
+      context: ./genai-edu-bot/frontend
+    ports:
+      - "3001:80"
